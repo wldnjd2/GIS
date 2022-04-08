@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.14.1/css/ol.css" type="text/css">
+    <style>
+      .map {
+        height: 1200px;
+        width: 100%;
+      }
+    </style>
+    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.14.1/build/ol.js"></script>
+    <title>OpenLayers example</title>
+  </head>
+  <body>
+    <h2>My Map</h2>
+
+    <div id="map" class="map"></div>
+    <script type="text/javascript">
+
+  /*   var source = new ol.source.XYZ({ 
+      url: 'http://localhost:8090/geoserver/jwkim/wms' 
+    }); 
+
+    //타일레이어 생성하기 -?
+    var viewLayer = new ol.layer.Tile({ 
+      source: source 
+    });
+ */
+    //layer추가
+    var wmsLayer = new ol.layer.Tile({
+      visible:true,
+      source : new ol.source.TileWMS({
+        url : 'http://localhost:8090/geoserver/jwkim/wms',
+        params : {
+          'VERSION' : '1.1.0',
+          'request' : 'GetMap',
+          'LAYERS' : 'jwkim:admin_emd',
+          'BBOX' : ['179171.578125', '536569.125', '216220.796875', '566855.5'],
+          'width' : '768',
+          'height' : '627',
+          'SRS' : 'EPSG:5186',
+          'FORMAT' : 'image/png'
+        },
+        serverType : 'geoserver',
+      })
+    });
+
+
+    //지도
+    var map = new ol.Map({
+        target: 'map',
+        layers: [
+          new ol.layer.Tile({source: new ol.source.OSM()}),
+          wmsLayer
+        ],
+        view: new ol.View({
+            projection: 'EPSG:900913',
+            center: ol.proj.fromLonLat([127, 37]),
+            zoom: 10
+        })
+    });
+
+    //Full Screen 버튼
+    /* var myFullScreenControl = new ol.control.FullScreen();
+    map.addControl(myFullScreenControl);
+
+       
+  */
+    /* map.addLayer(wmsLayer); */
+
+   
+
+   </script>
+  </body>
+</html>
