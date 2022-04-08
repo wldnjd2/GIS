@@ -1,0 +1,329 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.14.1/css/ol.css" type="text/css">
+    <style>
+      .map {
+        height: 1200px;
+        width: 100%;
+      }
+    </style>
+    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.14.1/build/ol.js"></script>
+    <title>OpenLayers example</title>
+  </head>
+  <body>
+    <h2>레이어 추가</h2>
+    <div id="map" class="map"></div>
+    <script type="text/javascript">
+  
+    //admin_emd layer추가
+    var admin_emd = new ol.layer.Tile({
+      visible:true,
+      source : new ol.source.TileWMS({
+        url : 'http://localhost:8090/geoserver/jwkim/wms',
+        params : {
+          'version' : '1.1.0',
+          'request' : 'GetMap',
+          'layers' : 'jwkim:admin_emd',
+          'bbox' : ['179171.578125', '536569.125', '216220.796875', '566855.5'],
+          'width' : '768',
+          'height' : '627',
+          'srs' : 'EPSG:5186',
+          'format' : 'image/png'
+        },
+        serverType : 'geoserver',
+      })
+    });
+
+    //admin_sgg layer추가
+    var admin_sgg = new ol.layer.Tile({
+          visible:true,
+          source : new ol.source.TileWMS({
+            url : 'http://localhost:8090/geoserver/jwkim/wms',
+            params : {
+              'version' : '1.1.0',
+              'request' : 'GetMap',
+              'layers' : 'jwkim:admin_sgg',
+              'bbox' : ['179171.578125', '536569.125', '216220.796875', '566855.5'],
+              'width' : '768',
+              'height' : '627',
+              'srs' : 'EPSG:5186',
+              'format' : 'image/png'
+            },
+            serverType : 'geoserver',
+          })
+        });
+
+    //admin_sid layer추가
+    var admin_sid = new ol.layer.Tile({
+          visible:true,
+          source : new ol.source.TileWMS({
+            url : 'http://localhost:8090/geoserver/jwkim/wms',
+            params : {
+              'version' : '1.1.0',
+              'request' : 'GetMap',
+              'layers' : 'jwkim:admin_sid',
+              'bbox' : ['179171.65625', '536569.125', '216220.640625', '566855.3125'],
+              'width' : '768',
+              'height' : '627',
+              'srs' : 'EPSG:5186',
+              'format' : 'image/png'
+            },
+            serverType : 'geoserver',
+          })
+        });
+
+    //building layer추가
+    // building = new ol.layer.Tile({
+    var building = new ol.layer.Tile({
+          visible:true,
+          source : new ol.source.TileWMS({
+            url : 'http://localhost:8090/geoserver/jwkim/wms',
+            params : {
+              'version' : '1.1.0',
+              'request' : 'GetMap',
+              'layers' : 'jwkim:building',
+              'bbox' : ['198237.6875', '536769.8125', '208468.21875', '547033.625'],
+              'width' : '765',
+              'height' : '768',
+              'srs' : 'EPSG:5186',
+              'format' : 'image/png'
+            },
+            serverType : 'geoserver',
+          })
+        });
+
+
+    //firestation layer추가
+    var firestation = new ol.layer.Tile({
+          visible:true,
+          source : new ol.source.TileWMS({
+            url : 'http://localhost:8090/geoserver/jwkim/wms',
+            params : {
+              'version' : '1.1.0',
+              'request' : 'GetMap',
+              'layers' : 'jwkim:firestation',
+              'bbox' : ['187630.765625', '541616.875', '212591.015625', '562717.5625'],
+              'width' : '768',
+              'height' : '649',
+              'srs' : 'EPSG:5186',
+              'format' : 'image/png'
+            },
+            serverType : 'geoserver',
+          })
+        });
+
+
+    //healthcenter 추가
+    var healthcenter = new ol.layer.Tile({
+          visible:true,
+          source : new ol.source.TileWMS({
+            url : 'http://localhost:8090/geoserver/jwkim/wms',
+            params : {
+              'version' : '1.1.0',
+              'request' : 'GetMap',
+              'layers' : 'jwkim:healthcenter',
+              'bbox' : ['188136.5', '539746.625', '211089.703125', '562047.9375'],
+              'width' : '768',
+              'height' : '746',
+              'srs' : 'EPSG:5186',
+              'format' : 'image/png'
+            },
+            serverType : 'geoserver',
+          })
+        });
+
+    //policestation 추가
+    var policestation = new ol.layer.Tile({
+          visible:true,
+          source : new ol.source.TileWMS({
+            url : 'http://localhost:8090/geoserver/jwkim/wms',
+            params : {
+              'version' : '1.1.0',
+              'request' : 'GetMap',
+              'layers' : 'jwkim:policestation',
+              'bbox' : ['186727.828125', '541685.9375', '211232.9375', '561549.0625'],
+              'width' : '768',
+              'height' : '622',
+              'srs' : 'EPSG:5186',
+              'format' : 'image/png'
+            },
+            serverType : 'geoserver',
+          })
+        });
+
+    //river 추가
+    var river = new ol.layer.Tile({
+          visible:true,
+          source : new ol.source.TileWMS({
+            url : 'http://localhost:8090/geoserver/jwkim/wms',
+            params : {
+              'version' : '1.1.0',
+              'request' : 'GetMap',
+              'layers' : 'jwkim:river',
+              'bbox' : ['179220.40625', '537515.3125', '215692.96875', '566031.0625'],
+              'width' : '768',
+              'height' : '600',
+              'srs' : 'EPSG:5186',
+              'format' : 'image/png'
+            },
+            serverType : 'geoserver',
+          })
+        });
+
+    //road_link2 추가
+    var road_link2 = new ol.layer.Tile({
+          visible:true,
+          source : new ol.source.TileWMS({
+            url : 'http://localhost:8090/geoserver/jwkim/wms',
+            params : {
+              'version' : '1.1.0',
+              'request' : 'GetMap',
+              'layers' : 'jwkim:road_link2',
+              'bbox' : ['181825.078125', '536813.125', '216154.171875', '565854.8125'],
+              'width' : '768',
+              'height' : '649',
+              'srs' : 'EPSG:5186',
+              'format' : 'image/png'
+            },
+            serverType : 'geoserver',
+          })
+        });
+
+    //road_link_geographic 추가
+    var road_link_geographic = new ol.layer.Tile({
+          visible:true,
+          source : new ol.source.TileWMS({
+            url : 'http://localhost:8090/geoserver/jwkim/wms',
+            params : {
+              'version' : '1.1.0',
+              'request' : 'GetMap',
+              'layers' : 'jwkim:road_link_geographic',
+              'bbox' : ['126.794357299805', '37.4306793212891', '127.182807922363', '37.6923599243164'],
+              'width' : '768',
+              'height' : '517',
+              'srs' : 'EPSG:4326',
+              'format' : 'image/png'
+            },
+            serverType : 'geoserver',
+          })
+        });
+
+    //stores 추가
+    var stores = new ol.layer.Tile({
+          visible:true,
+          source : new ol.source.TileWMS({
+            url : 'http://localhost:8090/geoserver/jwkim/wms',
+            params : {
+              'version' : '1.1.0',
+              'request' : 'GetMap',
+              'layers' : 'jwkim:stores',
+              'bbox' : ['182205.53125', '539181.5625', '213761.59375', '563138.0625'],
+              'width' : '768',
+              'height' : '583',
+              'srs' : 'EPSG:5186',
+              'format' : 'image/png'
+            },
+            serverType : 'geoserver',
+          })
+        });
+
+    //subway 추가
+    var subway = new ol.layer.Tile({
+          visible:true,
+          source : new ol.source.TileWMS({
+            url : 'http://localhost:8090/geoserver/jwkim/wms',
+            params : {
+              'version' : '1.1.0',
+              'request' : 'GetMap',
+              'layers' : 'jwkim:subway',
+              'bbox' : ['182127.671875', '536496.9375', '215355.609375', '567087.3125'],
+              'width' : '768',
+              'height' : '707',
+              'srs' : 'EPSG:5186',
+              'format' : 'image/png'
+            },
+            serverType : 'geoserver',
+          })
+        });
+
+    //subway_station 추가
+    var subway_station = new ol.layer.Tile({
+          visible:true,
+          source : new ol.source.TileWMS({
+            url : 'http://localhost:8090/geoserver/jwkim/wms',
+            params : {
+              'version' : '1.1.0',
+              'request' : 'GetMap',
+              'layers' : 'jwkim:subway_station',
+              'bbox' : ['182443.375', '539637.0625', '214706.734375', '565563.9375'],
+              'width' : '768',
+              'height' : '617',
+              'srs' : 'EPSG:5186',
+              'format' : 'image/png'
+            },
+            serverType : 'geoserver',
+          })
+        });
+
+    //wardoffice 추가
+    var wardoffice = new ol.layer.Tile({
+          visible:true,
+          source : new ol.source.TileWMS({
+            url : 'http://localhost:8090/geoserver/jwkim/wms',
+            params : {
+              'version' : '1.1.0',
+              'request' : 'GetMap',
+              'layers' : 'jwkim:wardoffice',
+              'bbox' : ['186697.421875', '539727.4375', '210930.453125', '563255.0625'],
+              'width' : '768',
+              'height' : '745',
+              'srs' : 'EPSG:5186',
+              'format' : 'image/png'
+            },
+            serverType : 'geoserver',
+          })
+        });
+
+
+
+    //지도
+    var map = new ol.Map({
+        target: 'map',
+        layers: [
+          new ol.layer.Tile({source: new ol.source.OSM()}),
+          
+        ],
+        view: new ol.View({
+            projection: 'EPSG:900913',
+            center: ol.proj.fromLonLat([127, 37.5]),
+            zoom: 13
+        })
+    });
+    
+    //층이 쌓이는 원리이기때문에 순서가 중요하다.
+     map.addLayer(admin_sid);
+     map.addLayer(admin_sgg);
+     map.addLayer(admin_emd);
+     map.addLayer(river);
+     map.addLayer(building);                
+     map.addLayer(road_link_geographic);
+     map.addLayer(road_link2);
+     map.addLayer(subway);
+     map.addLayer(policestation);
+     map.addLayer(stores);
+     map.addLayer(wardoffice);              
+     map.addLayer(subway_station);
+     map.addLayer(healthcenter);            
+     map.addLayer(firestation);              
+  
+     
+
+    //Full Screen 버튼
+    var myFullScreenControl = new ol.control.FullScreen();
+    map.addControl(myFullScreenControl);
+
+   </script>
+  </body>
+</html>
