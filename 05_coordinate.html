@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.14.1/css/ol.css" type="text/css">
+    <style>
+      .map {
+        height: 800px;
+        width: 50%;
+      }
+    </style>
+    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.14.1/build/ol.js"></script>
+    <title>OpenLayers example</title>
+  </head>
+  <body>
+    <h2>지도 클릭시 좌표값 가져오기</h2>
+    <div id="map" class="map"></div>
+
+    <script type="text/javascript">
+
+    //지도
+    var map = new ol.Map({
+      view: new ol.View ({
+        projection: 'EPSG:900913',
+        center: ol.proj.fromLonLat([126.99503897785843, 37.277550156593676]), //우리집
+        zoom: 17
+        }),
+      target: 'map',         //지도를 생성할 element 객체의 id 값
+      layers: [
+        new ol.layer.Tile({
+          source: new ol.source.XYZ({                     //vworld api 사용
+          url: 'http://xdworld.vworld.kr:8080/2d/Base/202002/{z}/{x}/{y}.png'
+          })
+        })
+      ],
+    });
+    /* map.on('click', function(evt) {
+      let coordinate = evt.coordinate;
+      console.log(coordinate);
+    }) */
+
+    //좌표를 가져오고나서 OpenLayer의 기본 좌표계인 EPSG:3857을 EPSG:4326으로 변환해서 담는다.
+    map.on('click', function(evt){
+      var coordinate = ol.proj.transform(evt.coordinate, 'EPSG:3857', 'EPSG:4326');
+      console.log(coordinate);
+    })
+    
+
+    </script>
+  </body>
+</html>

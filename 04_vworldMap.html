@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.14.1/css/ol.css" type="text/css">
+    <style>
+      .map {
+        height: 800px;
+        width: 50%;
+      }
+    </style>
+    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.14.1/build/ol.js"></script>
+    <title>OpenLayers example</title>
+  </head>
+  <body>
+    <h2>VWorld API 가져오기</h2>
+    <!--osm은 보안때문에 사용하지 못하기 대문에 VWorld 사이트 지도 API 적용하기-->
+    <div id="map" class="map"></div>
+
+    <script type="text/javascript">
+
+    var view = new ol.View({
+      projection: 'EPSG:900913',
+      center: ol.proj.fromLonLat([127, 37]), //우리나라
+      zoom: 10
+      });
+
+    //지도
+    var map = new ol.Map({
+      target: 'map',   //지도를 생성할 element 객체의 id 값
+      layers: [
+        new ol.layer.Tile({
+          source: new ol.source.XYZ({ //vworld api 사용
+          url: 'http://xdworld.vworld.kr:8080/2d/Base/202002/{z}/{x}/{y}.png'
+          })
+        })
+      ],
+      view:view
+    });
+
+  
+
+    </script>
+  </body>
+</html>

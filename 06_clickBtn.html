@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.14.1/css/ol.css" type="text/css">
+    <style>
+      .map {
+        height: 800px;
+        width: 50%;
+      }
+    </style>
+    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.14.1/build/ol.js"></script>
+    <title>OpenLayers example</title>
+  </head>
+  <body>
+    <h2>이동버튼 누르면 지도 이동하기</h2>
+    <div id="map" class="map"></div>
+    <button onclick="move();">이동</button>
+    
+    <script type="text/javascript">
+
+  //지도
+  var map = new ol.Map({
+    view: new ol.View({
+        zoom: 16,
+        center: new ol.geom.Point([126.99503897785843, 37.277550156593676])  
+        .transform('EPSG:4326', 'EPSG:3857') 
+        .getCoordinates(), //포인트의 좌표를 리턴함
+    }),
+    target: 'map',   //id값
+    layers: [
+        new ol.layer.Tile({
+            source : new ol.source.XYZ({               //vworld api 사용
+            url: 'http://xdworld.vworld.kr:8080/2d/Base/202002/{z}/{x}/{y}.png',
+        })
+        }),
+    ]
+});
+
+//이동하기
+function move() {
+    /* map.beforeRender(ol.animation.pan({
+        source: map.getView().getCenter(),
+        duration: 500
+    })); */
+    map.getView().setCenter(
+        new ol.geom.Point([127.03952713552859, 37.25818350029961]).transform('EPSG:4326', 'EPSG:3857').getCoordinates()
+    );
+    map.getView().setZoom(parseInt(17));
+}
+  
+    </script>
+  </body>
+</html>

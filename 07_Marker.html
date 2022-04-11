@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.14.1/css/ol.css" type="text/css">
+    <style>
+      .map {
+        height: 800px;
+        width: 50%;
+      }
+    </style>
+    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.14.1/build/ol.js"></script>
+    <title>OpenLayers example</title>
+  </head>
+  <body>
+    <h2>클릭시 마커 생기기</h2>
+    <div id="map" class="map"></div>
+    <button onclick="move();">이동</button>
+    
+    <script type="text/javascript">
+      var markerLayer; // 마커 Layer
+      var vectorLayer = new ol.layer.Vector({
+      source: new ol.source.Vector()
+      });
+
+    //지도
+    var map = new ol.Map({
+      view: new ol.View({
+        zoom: 16,
+        center: new ol.geom.Point([126.99503897785843, 37.277550156593676]) //처음 중앙에 보여질 경도, 위도 
+        .transform('EPSG:4326', 'EPSG:3857') //GPS 좌표계 -> 구글 좌표계
+        .getCoordinates(), //포인트의 좌표를 리턴함
+      }),
+      target: 'map',
+      layers: [
+        new ol.layer.Tile({
+          source : new ol.source.XYZ({ //vworld api 사용
+          url: 'http://xdworld.vworld.kr:8080/2d/Base/202002/{z}/{x}/{y}.png',
+          //tileGrid: tileGrid
+          })
+          }),
+        vectorLayer
+      ]
+  });
+
+    //이동하기
+    function move() {
+      console.log("move");
+      map.getView().setCenter(
+        new ol.geom.Point([127.03952713552859, 37.25818350029961]).transform('EPSG:4326', 'EPSG:3857').getCoordinates()
+      );
+      map.getView().setZoom(parseInt(10));
+    }
+      
+
+    //마커 레이어에 들어갈 소스 생성
+    var markerSource = new ol.source.Vector();
+    addMarker();
+
+    function addMarker() {
+
+      var point_feature = new ol.Feature({
+        geometry: new ol.geom.Point([127.03952713552859, 37.25818350029961]).transform('EPSG:4326', 'EPSG:3857')
+      });
+
+
+      markerSource.addFeature(point_feature);
+     //style을 활용해서, point의 style을 변경한다.
+    var markerStyle = new ol.style.Style({
+	    image: new ol.style.Icon({ //마커 이미지
+	        opacity: 1, //투명도 1=100% 
+	        scale: 0.1, //크기 1=100%
+
+	        //marker 이미지, 해당 point를 marker로 변경한다.
+	        src: './marker.png'
+	    }),
+        //html의 css, z-index 기능이다.
+	    zindex: 10
+	});
+
+    // 마커 레이어 생성
+	markerLayer = new ol.layer.Vector({
+	    source: markerSource, //마커 feacture들
+	    style: markerStyle //마커 스타일
+	});
+
+	// 지도에 마커가 그려진 레이어 추가
+	map.addLayer(markerLayer);
+}
+
+
+    </script>
+  </body>
+</html>
