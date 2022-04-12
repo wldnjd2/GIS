@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.14.1/css/ol.css" type="text/css">
+    <style>
+      .map {
+        height: 800px;
+        width: 100%;
+      }
+    </style>
+    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.14.1/build/ol.js"></script>
+    <title>OpenLayers example</title>
+  </head>
+  <body>
+    <h2> 클릭시 마커 표시하기</h2>
+    <div id="map" class="map">
+    <div id="popup"></div>
+    </div>
+  </body>
+  
+  <script type="text/javascript">
+    var markerLayer;                    
+
+    //지도
+    var map = new ol.Map({
+      view: new ol.View({
+        zoom: 16,
+        center: new ol.geom.Point([14137023.47364948, 4477865.009314795]) 
+        //포인트의 좌표를 리턴함
+        .getCoordinates(),                      
+      }),
+    target: 'map',
+    layers: [
+      new ol.layer.Tile({
+        source : new ol.source.XYZ({  //VWorld API 사용
+        url: 'http://xdworld.vworld.kr:8080/2d/Base/202002/{z}/{x}/{y}.png',
+        })
+      }),
+    ]
+    });    
+
+    //마커 레이어에 들어갈 소스 생성
+    var markerSource = new ol.source.Vector();
+    
+    //클릭
+    map.on('click', function(evt) {
+      var coordinate = evt.coordinate;
+      console.log(coordinate);
+      // 지도에 마커가 그려진 레이어 추가
+      addMarker(coordinate);
+    })
+
+    //마커 등록하기
+    function addMarker(coordinate) {
+      console.log("addMarker");
+
+      //point 좌표 등록
+      var point_feature = new ol.Feature({
+        geometry: new ol.geom.Point([coordinate[0], coordinate[1]])
+      });
+      
+      markerSource.addFeature(point_feature);
+
+      //marker style
+      var markerStyle = new ol.style.Style({
+        image: new ol.style.Icon({ //마커 이미지
+          opacity: 1, //투명도
+          scale: 0.08, //크기
+
+          //marker 이미지
+          src: '/img/marker.png'
+        }),
+        zindex: 10 //z-index
+      });
+      console.log(coordinate);
+
+      // 마커 레이어 생성
+      let markerLayer = new ol.layer.Vector({
+        source: markerSource, //마커 feature들
+        style: markerStyle //마커 스타일
+      });
+      
+      map.addLayer(markerLayer);
+    }
+    
+  </script>
+</html>
