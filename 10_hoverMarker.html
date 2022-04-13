@@ -7,19 +7,44 @@
         height: 800px;
         width: 100%;
       }
+
+      .hover{
+        border: 1px solid #63aee1;
+        border-radius: 5px;
+        background-color: #63aee1;
+        font-size: 15px;
+        color: white;
+        text-align: center;
+        position: absolute;
+        top: 30px;
+        left: -50px;
+        width:130px;
+      }
+      
     </style>
     <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.14.1/build/ol.js"></script>
     <title>OpenLayers example</title>
   </head>
   <body>
-    <h2> 클릭시 마커 표시하기</h2>
+    <h2> 마커 클릭시 hover 표시하기</h2>
     <div id="map" class="map"></div>
+    <div id = "popup">
+      <div id="popup-content"></div>
     </div>
   </body>
   
   <script type="text/javascript">
-    var markerLayer       
+    var container = document.getElementById('popup'); //팝업이 담길 컨테이너 요소
+    var content = document.getElementById('popup-content'); //팝업 내용 요소
+    var hover=null; //마우스 이벤트에 사용될 변수
+    var markerLayer;              
+
+
+    //팝업 옵션 설정 
+    var overlay = new ol.Overlay({
+      element : container 
+    });
 
     //지도
     var map = new ol.Map({
@@ -36,19 +61,57 @@
         url: 'http://xdworld.vworld.kr:8080/2d/Base/202002/{z}/{x}/{y}.png',
         })
       }),
-    ]
+    ],
+    overlays: [overlay]
     });    
+
+    
 
     //마커 레이어에 들어갈 소스 생성
     var markerSource = new ol.source.Vector();
     
-    //클릭
+    //맵 클릭
     map.on('click', function(evt) {
       var coordinate = evt.coordinate;
       console.log(coordinate);
       // 지도에 마커가 그려진 레이어 추가
       addMarker(coordinate);
     });
+
+
+
+
+    ////추가////////////////////////////////
+    map.on('pointermove', function(evt) { //마우스 올렸을 때
+      var coordinate = evt.coordinate; //마우스가 올려진 좌표값
+      
+      //마커가 있는 곳에 마우스가 올려지면 커서의 스타일을 pointer로 설정
+      map.getTargetElement().style.cursor = map.hasFeatureAtPixel(evt.pixel) ? 'pointer': '';
+      
+      //마우스를 다른 곳으로 옮길 때를 위해 스위치역할
+      if(hover != null) {
+        hover = null;
+      } 
+  
+      //마우스가 올려진 곳의 마커를 가져와 hover에 저장
+      map.forEachFeatureAtPixel(evt.pixel, function(f) {
+            hover = f;
+            return true;
+          });
+    
+      //마커가 있을 경우
+      if(hover){
+        //popup-content 부분에 content를 넣어줌
+        content.innerHTML =  "<div class='hover'>" + "마커 클릭" + "</div>";
+        
+        //오버레이의 좌표를 정해줌
+        overlay.setPosition(coordinate);
+      
+      } //마커가 없으면
+      else{
+        content.innerHTML = '';
+      }
+  });
 
     //마커 등록하기
     function addMarker(coordinate) {
@@ -79,7 +142,7 @@
       });
 
       // 마커 레이어 생성
-      var markerLayer = new ol.layer.Vector({
+      markerLayer = new ol.layer.Vector({
         source: markerSource, //마커 feature들
         style: markerStyle //마커 스타일
       });

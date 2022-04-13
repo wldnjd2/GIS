@@ -51,7 +51,6 @@
         geometry: new ol.geom.Point([127.03952713552859, 37.25818350029961]).transform('EPSG:4326', 'EPSG:3857')
       });
       
-      //markerSource에 등록한 point를 담는다. addFeature를 이용해서, 여러개의 point를 source에 담는다.
       markerSource.addFeature(point_feature);
 
       //marker style
@@ -59,7 +58,7 @@
         image: new ol.style.Icon({ //마커 이미지
           opacity: 1, //투명도 1=100% 
           scale: 0.08, //크기 1=100%
-          //marker 이미지, 해당 point를 marker로 변경한다.
+          //marker 이미지
           src: 'img/marker.png'
         }),
         zindex: 1 //z-index
@@ -73,10 +72,9 @@
 
       
       
-    }//
-    
+    }
     // 지도에 마커가 그려진 레이어 추가
-   // map.addLayer(markerLayer);
+   map.addLayer(markerLayer);
    
 
   </script>
