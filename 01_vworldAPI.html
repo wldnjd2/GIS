@@ -5,7 +5,7 @@
     <style>
       .map {
         height: 800px;
-        width: 50%;
+        width: 100%;
       }
     </style>
     <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
@@ -13,25 +13,31 @@
     <title>OpenLayers example</title>
   </head>
   <body>
-    <h2>OSM을 이용해서 지도 띄우기</h2>
+    <h2>vworld api 사용하기</h2>
     <div id="map" class="map"></div>
 
     <script type="text/javascript">
 
-    var view = new ol.View({
-        projection: 'EPSG:900913',
-        center: ol.proj.fromLonLat([127, 37]), //우리나라
-        zoom: 10
+      var view = new ol.View({
+        zoom: 10,
+        center: ol.proj.fromLonLat([126.01157461174363, 37.27352141529411])
+        //.transform('EPSG:4326', 'EPSG:3857')
       });
 
     //지도
-    var map = new ol.Map({
+      var map = new ol.Map({
         target: 'map',   //지도를 생성할 element 객체의 id 값
         layers: [
-            new ol.layer.Tile({source: new ol.source.OSM()})
+            new ol.layer.Tile({
+              source: new ol.source.XYZ ({
+                url:'http://api.vworld.kr/req/wmts/1.0.0/6408D084-2C9F-3F4B-8C4E-D2E4384D54A0/Base/{z}/{y}/{x}.png'
+              })
+            })
         ],
         view:view
-    });
+      });
+      
+  
 
   
 
