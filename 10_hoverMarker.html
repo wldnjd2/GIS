@@ -95,6 +95,9 @@
   
       //마우스가 올려진 곳의 마커를 가져와 hover에 저장
       map.forEachFeatureAtPixel(evt.pixel, function(f) {
+            console.log(evt)
+            console.log(evt.pixel)
+            console.log(f)
             hover = f;
             return true;
           });

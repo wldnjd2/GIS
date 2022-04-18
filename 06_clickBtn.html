@@ -41,7 +41,7 @@
 function move() {
     /* map.beforeRender(ol.animation.pan({
         source: map.getView().getCenter(),
-        duration: 500
+        duration: 500  
     })); */
     map.getView().setCenter(
         new ol.geom.Point([127.03952713552859, 37.25818350029961]).transform('EPSG:4326', 'EPSG:3857').getCoordinates()
