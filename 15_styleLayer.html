@@ -26,8 +26,8 @@
           'request' : 'GetMap',
           'layers' : 'jwkim:firestation',
           'bbox' : ['106692.73537957488', '60776.82251131523', '293307.26462042273', '637103.1280820166'],
-          'width' : '330',
-          'height' : '768',
+          'width' : '300',
+          'height' : '300',
           'srs' : 'EPSG:5186',
           'format' : 'image/png'
         },
@@ -39,14 +39,15 @@
     var policestation = new ol.layer.Tile({
               visible:true,
               source : new ol.source.TileWMS({
-                url : 'http://localhost:8090/geoserver/jwkim/wms',
+                url : 'http://168.192.0.129:8090/geoserver/jwkim/wms',
                 params : {
+                  'service': 'WMS',
                   'version' : '1.1.0',
                   'request' : 'GetMap',
                   'layers' : 'jwkim:policestation',
                   'bbox' : ['106692.73537957488', '60776.82251131523', '293307.26462042273', '637103.1280820166'],
-                  'width' : '330',
-                  'height' : '768',
+                  'width' : '300',
+                  'height' : '300',
                   'srs' : 'EPSG:5186',
                   'format' : 'image/png'
                 },
